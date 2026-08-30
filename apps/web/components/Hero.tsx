@@ -3,6 +3,7 @@
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import MoltenMetal from '@/components/MoltenMetal';
 import StrokeText from '@/components/StrokeText';
+import ParticleField from '@/components/ParticleField';
 import { colors } from '@/lib/design-tokens';
 
 const bgVariants: Variants = {
@@ -50,6 +51,13 @@ export default function Hero() {
           grainIntensity={0.04}
         />
       </motion.div>
+
+      <div className="absolute inset-0 z-[5]">
+        <ParticleField
+          particleCount={60}
+          particleColor={colors.stem}
+        />
+      </div>
 
       <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
         <StrokeText
