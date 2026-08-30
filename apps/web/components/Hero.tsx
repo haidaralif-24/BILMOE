@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import MoltenMetal from '@/components/MoltenMetal';
-import SplitText from '@/components/SplitText';
+import StrokeText from '@/components/StrokeText';
 import { colors } from '@/lib/design-tokens';
 
 const bgVariants: Variants = {
@@ -51,19 +51,22 @@ export default function Hero() {
         />
       </motion.div>
 
-      <div className="absolute inset-0 z-10 flex items-center justify-center">
-        <SplitText
+      <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
+        <StrokeText
           text="B-ILMOE"
-          tag="h1"
-          splitType="chars"
-          delay={80}
-          duration={1.25}
-          ease="power3.out"
-          from={{ opacity: 0, y: 50 }}
-          to={{ opacity: 1, y: 0 }}
-          threshold={0.1}
-          rootMargin="0px"
-          className="font-display text-7xl sm:text-8xl md:text-9xl font-bold tracking-tight text-bil-text"
+          strokeColor={colors.stem}
+          fillColor={colors.text}
+          strokeWidth={1.4}
+          drawDuration={1.6}
+          fillDelay={0.3}
+          stagger={0.06}
+          ease="power2.out"
+          trigger="mount"
+          fillMode="wipe"
+          fontSize={140}
+          fontWeight={700}
+          letterSpacing={-4}
+          className="max-w-full font-display"
         />
       </div>
     </div>
