@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import MoltenMetal from '@/components/MoltenMetal';
-import GradientText from '@/components/GradientText';
+import SplitText from '@/components/SplitText';
 import { colors } from '@/lib/design-tokens';
 
 const bgVariants: Variants = {
@@ -52,15 +52,19 @@ export default function Hero() {
       </motion.div>
 
       <div className="absolute inset-0 z-10 flex items-center justify-center">
-        <GradientText
-          colors={[colors.stem, colors.arts, colors.social]}
-          animationSpeed={8}
-          direction="horizontal"
-          pauseOnHover
-          className="font-display text-7xl sm:text-8xl md:text-9xl font-bold tracking-tight"
-        >
-          B-ILMOE
-        </GradientText>
+        <SplitText
+          text="B-ILMOE"
+          tag="h1"
+          splitType="chars"
+          delay={80}
+          duration={1.25}
+          ease="power3.out"
+          from={{ opacity: 0, y: 50 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0.1}
+          rootMargin="0px"
+          className="font-display text-7xl sm:text-8xl md:text-9xl font-bold tracking-tight text-bil-text"
+        />
       </div>
     </div>
   );
