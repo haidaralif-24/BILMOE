@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "docs/architecture.md",
+    "AGENTS.md"
+  ],
+  "mcp": {
+    "supabase": {
+      "type": "remote",
+      "url": "https://mcp.supabase.com/mcp?read_only=true&features=database,docs,development,debugging",
+      "enabled": true
+    },
+    "graphify": {
+      "type": "local",
+      "command": ["python3", "-m", "graphify.serve", "graphify-out/graph.json"],
+      "enabled": true
+    }
+  },
+  "permission": {
+    "edit": "allow",
+    "bash": "ask"
+  }
+}
