@@ -9,8 +9,8 @@ type SectionDividerProps = {
   height?: number;
 };
 
-const DEFAULT_INTENSITY = 0.4;
-const DEFAULT_HEIGHT = 2;
+const DEFAULT_INTENSITY = 0.2;
+const DEFAULT_HEIGHT = 1;
 
 export function SectionDivider({ color = 'stem', intensity = DEFAULT_INTENSITY, height = DEFAULT_HEIGHT }: SectionDividerProps) {
   const prefersReduced = useReducedMotion();
@@ -24,19 +24,20 @@ export function SectionDivider({ color = 'stem', intensity = DEFAULT_INTENSITY, 
 
   const accentColor = colorMap[color] || colors.stem;
 
-  // If prefers-reduced-motion, use solid line only
-  const lineHeight = typeof height === 'number' ? `${height}px` : '2px';
-  const opacity = prefersReduced ? 0.3 : 1;
-  const shadowBlur = Math.max(1, Math.round(intensity * 20));
+  // If prefers-reduced-motion, use very subtle line only
+  const lineHeight = typeof height === 'number' ? `${height}px` : '1px';
+  const opacity = prefersReduced ? 0.15 : intensity;
+  const shadowAlpha = Math.max(0.02, Math.round(intensity * 0.15) / 100);
 
   const lineStyle = {
     height: lineHeight,
     borderTop: `1px solid ${accentColor}`,
     borderBottom: `1px solid ${accentColor}`,
-    backgroundColor: 'transparent',
+    background: 'transparent',
+    // Very subtle shadow - almost invisible
     boxShadow: `
-      0 0 1px ${accentColor}${intensity > 0 ? `${opacity}` : '0'},
-      0 0 ${shadowBlur}px ${accentColor}${intensity > 0 ? `${opacity * 0.3}` : '0'},
+      0 0 1px rgba(${hexToRgb(accentColor)}, ${opacity}),
+      0 0 3px rgba(${hexToRgb(accentColor)}, ${opacity * 0.3}),
     `,
     willChange: prefersReduced ? 'height' : 'height, box-shadow',
   };
@@ -48,4 +49,16 @@ export function SectionDivider({ color = 'stem', intensity = DEFAULT_INTENSITY, 
       aria-hidden="true"
     />
   );
+}
+
+// Helper to convert hex to rgb for box-shadow
+function hexToRgb(hex: string): string {
+  const cleanHex = hex.replace('#', '');
+  if (cleanHex.length === 3) {
+    return `${parseInt(cleanHex[0] + cleanHex[0], 16)} ${parseInt(cleanHex[1] + cleanHex[1], 16)} ${parseInt(cleanHex[2] + cleanHex[2], 16)}`;
+  }
+  if (cleanHex.length === 6) {
+    return `${parseInt(cleanHex.slice(0, 2), 16)} ${parseInt(cleanHex.slice(2, 4), 16)} ${parseInt(cleanHex.slice(4, 6), 16)}`;
+  }
+  return '0 0 0';
 }
