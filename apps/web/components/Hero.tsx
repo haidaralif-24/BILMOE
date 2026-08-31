@@ -1,36 +1,24 @@
 'use client';
 
-import { motion, useReducedMotion, type Variants } from 'framer-motion';
+import { motion, useReducedMotion, useScroll, useTransform, type Variants } from 'framer-motion';
+import { useRef } from 'react';
 import StrokeText from '@/components/StrokeText';
 import SoftAurora from '@/components/SoftAurora';
 import { colors } from '@/lib/design-tokens';
 
 const bgVariants: Variants = {
   hidden: { opacity: 0, scale: 1.05 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.6, ease: 'easeOut' },
-  },
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.6, ease: 'easeOut' } },
 };
 
 const reducedFade: Variants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.2, ease: 'easeOut' },
-  },
+  visible: { opacity: 1, transition: { duration: 0.2, ease: 'easeOut' } },
 };
 
 const logoIntro: Variants = {
   hidden: { opacity: 0, y: 24, scale: 0.94, filter: 'blur(10px)' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: 'blur(0px)',
-    transition: { duration: 1.15, delay: 0.2, ease: [0.22, 1, 0.36, 1] },
-  },
+  visible: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', transition: { duration: 1.15, delay: 0.2, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const reducedLogoIntro: Variants = {
@@ -40,13 +28,7 @@ const reducedLogoIntro: Variants = {
 
 const taglineIntro: Variants = {
   hidden: { opacity: 0, y: 18, scale: 0.97, filter: 'blur(8px)' },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    filter: 'blur(0px)',
-    transition: { duration: 0.8, delay: 1.35, ease: [0.22, 1, 0.36, 1] },
-  },
+  visible: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', transition: { duration: 0.8, delay: 1.35, ease: [0.22, 1, 0.36, 1] } },
 };
 
 const reducedTaglineIntro: Variants = {
@@ -56,11 +38,19 @@ const reducedTaglineIntro: Variants = {
 
 export default function Hero() {
   const prefersReduced = useReducedMotion();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.72, 1], [1, 1, 0]);
+  const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, -36]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.68, 0.95], [1, 1, 0]);
 
   return (
-    <div className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black px-4">
+    <section ref={heroRef} className="relative h-screen w-full overflow-hidden bg-black">
       <motion.div
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 will-change-transform"
+        style={prefersReduced ? undefined : { opacity: heroOpacity, scale: heroScale }}
         variants={prefersReduced ? reducedFade : bgVariants}
         initial="hidden"
         animate="visible"
@@ -68,9 +58,15 @@ export default function Hero() {
         <SoftAurora />
       </motion.div>
 
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-black/20" />
+      <motion.div
+        className="pointer-events-none absolute inset-0 z-[1] bg-black/20"
+        style={prefersReduced ? undefined : { opacity: heroOpacity }}
+      />
 
-      <div className="relative z-10 flex w-full max-w-6xl -translate-y-8 flex-col items-center justify-center gap-7 sm:-translate-y-10">
+      <motion.div
+        className="relative z-10 flex h-full w-full max-w-6xl -translate-y-8 flex-col items-center justify-center gap-7 px-4 sm:-translate-y-10"
+        style={prefersReduced ? undefined : { opacity: contentOpacity, scale: heroScale, y: heroY, willChange: 'transform, opacity' }}
+      >
         <motion.div
           className="w-full max-w-full"
           variants={prefersReduced ? reducedLogoIntro : logoIntro}
@@ -114,13 +110,7 @@ export default function Hero() {
           >
             <div
               className="rounded-2xl border bg-black/40 px-6 py-5 text-center sm:px-10 sm:py-6"
-              style={{
-                boxShadow: `0 0 24px ${colors.stem}12, inset 0 0 16px ${colors.stem}06`,
-                borderColor: `${colors.stem}30`,
-                willChange: 'transform',
-                transform: 'translateZ(0)',
-                backfaceVisibility: 'hidden',
-              }}
+              style={{ boxShadow: `0 0 24px ${colors.stem}12, inset 0 0 16px ${colors.stem}06`, borderColor: `${colors.stem}30`, willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
             >
               <p className="font-display text-sm leading-7 text-white/75 sm:text-base sm:leading-8">
                 Menyediakan wadah eksplorasi ilmu, memublikasikan penelitian teruji, dan mewujudkan media yang mudah diakses
@@ -128,7 +118,7 @@ export default function Hero() {
             </div>
           </motion.div>
         </motion.div>
-      </div>
-    </div>
+      </motion.div>
+    </section>
   );
 }
