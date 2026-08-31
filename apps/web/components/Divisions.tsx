@@ -1,15 +1,10 @@
 'use client';
 
 import { motion, useReducedMotion } from 'framer-motion';
+import CardSwap, { Card } from '@/components/CardSwap';
 import { colors } from '@/lib/design-tokens';
 
-type Division = {
-  title: string;
-  description: string;
-  accent: string;
-};
-
-const divisions: Division[] = [
+const divisions = [
   {
     title: 'ARTS',
     description: 'Creativity, literature, culture, and visual expression.',
@@ -25,12 +20,6 @@ const divisions: Division[] = [
     description: 'Science, technology, engineering, and mathematics.',
     accent: colors.stem,
   },
-];
-
-const positions = [
-  { x: -170, y: -70, rotate: -7, z: 20 },
-  { x: 0, y: 0, rotate: 2, z: 30 },
-  { x: 170, y: 70, rotate: 7, z: 20 },
 ];
 
 export default function Divisions() {
@@ -59,48 +48,22 @@ export default function Divisions() {
           </p>
         </div>
 
-        <div className="relative mx-auto flex min-h-[500px] max-w-5xl items-center justify-center sm:min-h-[540px]">
-          {divisions.map((division, index) => {
-            const position = positions[index];
-
-            return (
-              <motion.article
+        <div className="relative mx-auto h-[560px] w-full max-w-5xl sm:h-[620px]">
+          <CardSwap
+            width="min(76vw, 420px)"
+            height="420px"
+            cardDistance={48}
+            verticalDistance={58}
+            delay={5000}
+            pauseOnHover
+            skewAmount={5}
+            easing="elastic"
+          >
+            {divisions.map((division, index) => (
+              <Card
                 key={division.title}
-                className="absolute flex h-[350px] w-[min(76vw,330px)] flex-col justify-between overflow-hidden rounded-3xl border bg-zinc-900/95 p-7 shadow-[0_18px_45px_rgba(0,0,0,0.35)] sm:h-[380px] sm:p-9"
-                style={{
-                  zIndex: position.z,
-                  borderColor: `${division.accent}30`,
-                  willChange: 'transform, opacity',
-                  transform: 'translateZ(0)',
-                  backfaceVisibility: 'hidden',
-                }}
-                initial={
-                  prefersReduced
-                    ? { opacity: 1 }
-                    : { opacity: 0, x: 0, y: 45, rotate: 0, scale: 0.95 }
-                }
-                whileInView={
-                  prefersReduced
-                    ? { opacity: 1 }
-                    : {
-                        opacity: 1,
-                        x: position.x,
-                        y: position.y,
-                        rotate: position.rotate,
-                        scale: 1,
-                      }
-                }
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{
-                  duration: 0.7,
-                  delay: index * 0.1,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                whileHover={
-                  prefersReduced
-                    ? undefined
-                    : { scale: 1.025, rotate: 0 }
-                }
+                className="flex flex-col justify-between overflow-hidden border-white/10 bg-zinc-900/95 p-7 shadow-[0_18px_45px_rgba(0,0,0,0.35)] sm:p-9"
+                style={{ borderColor: `${division.accent}30` }}
               >
                 <div>
                   <div
@@ -127,9 +90,9 @@ export default function Divisions() {
                     Discover the division
                   </p>
                 </div>
-              </motion.article>
-            );
-          })}
+              </Card>
+            ))}
+          </CardSwap>
         </div>
       </motion.div>
     </section>
