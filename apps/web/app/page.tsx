@@ -1,15 +1,13 @@
 import Hero from "@/components/Hero";
 import WhoWeAre from "@/components/WhoWeAre";
 import Divisions from "@/components/Divisions";
-import { SectionDivider } from "@/components/SectionDivider";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col bg-black font-sans">
+    <main className="flex min-h-screen flex-col bg-black font-sans">
       <Hero />
       <WhoWeAre />
-      <SectionDivider color="stem" intensity={0.2} height={1} />
       <Divisions />
-    </div>
+    </main>
   );
 }
