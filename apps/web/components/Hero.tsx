@@ -63,7 +63,7 @@ function HeroInner({ prefersReduced }: { prefersReduced: boolean }) {
       />
 
       <motion.div
-        className="relative z-10 flex h-full w-full max-w-6xl -translate-y-8 flex-col items-center justify-center gap-7 px-4 text-center sm:-translate-y-10"
+        className="relative z-10 flex h-full w-full max-w-6xl flex-col items-center justify-center gap-7 px-4 text-center"
         style={prefersReduced ? undefined : { opacity: contentOpacity, scale: heroScale, y: heroY, willChange: 'transform, opacity' }}
       >
         <motion.div
