@@ -41,7 +41,6 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
 
-  /* BILMOE neon identity */
   --color-stem: #aded50;
   --color-arts: #ff5ca1;
   --color-social: #ff7b1c;
@@ -66,15 +65,12 @@
 }
 
 :root {
-  /* Dark-first neon palette: bright accents need a quiet surface to glow against. */
   --background: #0a0c14;
   --foreground: #eef0fb;
   --card: #12162a;
   --card-foreground: #eef0fb;
   --popover: #12162a;
   --popover-foreground: #eef0fb;
-
-  /* Primary = green accent; pink/orange are supporting accents. */
   --primary: #aded50;
   --primary-foreground: #0a0c14;
   --secondary: #15142a;
@@ -87,16 +83,12 @@
   --border: rgba(173, 237, 80, 0.14);
   --input: rgba(173, 237, 80, 0.18);
   --ring: #aded50;
-
-  /* Data visualization follows the same neon spectrum. */
   --chart-1: #aded50;
   --chart-2: #ff5ca1;
   --chart-3: #ff7b1c;
   --chart-4: #fcd717;
   --chart-5: #ed2626;
-
   --radius: 0.625rem;
-
   --sidebar: #090d18;
   --sidebar-foreground: #eef0fb;
   --sidebar-primary: #aded50;
@@ -107,7 +99,6 @@
   --sidebar-ring: #aded50;
 }
 
-/* Keep .dark compatible with shadcn/theme toggles while making the neon theme the default. */
 .dark {
   --background: #0a0c14;
   --foreground: #eef0fb;
@@ -150,10 +141,14 @@
   html {
     @apply font-sans;
     background: var(--background);
+    scroll-behavior: smooth;
+    scroll-snap-type: y mandatory;
+    overflow-y: auto;
   }
 
   body {
     @apply min-h-screen bg-background text-foreground;
+    overflow-x: hidden;
   }
 
   ::selection {
@@ -162,8 +157,24 @@
   }
 }
 
+@layer components {
+  .section-snap {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .section-snap {
+    scroll-snap-stop: normal;
+  }
+}
+
 @layer utilities {
-  /* Use these sparingly: neon looks better when luminosity has hierarchy. */
   .neon-glow {
     text-shadow: 0 0 10px rgba(173, 237, 80, 0.45);
   }
