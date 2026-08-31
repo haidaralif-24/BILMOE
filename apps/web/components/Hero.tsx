@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
-import MoltenMetal from '@/components/MoltenMetal';
+import Hyperspeed from '@/components/Hyperspeed';
 import StrokeText from '@/components/StrokeText';
 import ParticleField from '@/components/ParticleField';
 import BorderGlow from '@/components/BorderGlow';
@@ -35,21 +35,44 @@ export default function Hero() {
         initial="hidden"
         animate="visible"
       >
-        <MoltenMetal
-          color1={colors.stem}
-          color2={colors.arts}
-          color3={colors.social}
-          backgroundColor={colors.bg}
-          speed={0.3}
-          scale={3.5}
-          detail={4}
-          glow={1.4}
-          coreSize={0.08}
-          swirl={0.8}
-          brightness={1.2}
-          blackPoint={0.04}
-          grain
-          grainIntensity={0.04}
+        <Hyperspeed
+          effectOptions={{
+            onSpeedUp: () => {},
+            onSlowDown: () => {},
+            distortion: 'turbulentDistortion',
+            length: 400,
+            roadWidth: 10,
+            islandWidth: 2,
+            lanesPerRoad: 3,
+            fov: 90,
+            fovSpeedUp: 150,
+            speedUp: 2,
+            carLightsFade: 0.4,
+            totalSideLightSticks: 20,
+            lightPairsPerRoadWay: 40,
+            shoulderLinesWidthPercentage: 0.05,
+            brokenLinesWidthPercentage: 0.1,
+            brokenLinesLengthPercentage: 0.5,
+            lightStickWidth: [0.12, 0.5],
+            lightStickHeight: [1.3, 1.7],
+            movingAwaySpeed: [60, 80],
+            movingCloserSpeed: [-120, -160],
+            carLightsLength: [12, 80],
+            carLightsRadius: [0.05, 0.14],
+            carWidthPercentage: [0.3, 0.5],
+            carShiftX: [-0.8, 0.8],
+            carFloorSeparation: [0, 5],
+            colors: {
+              roadColor: 0x080808,
+              islandColor: 0x0a0a0a,
+              background: 0x0A0C14,
+              shoulderLines: 0x131318,
+              brokenLines: 0x131318,
+              leftCars: [0xC6FF3D, 0xFF3FAE, 0xC6FF3D],
+              rightCars: [0x3FD7FF, 0xC6FF3D, 0x3FD7FF],
+              sticks: 0x3FD7FF,
+            },
+          }}
         />
       </motion.div>
 
