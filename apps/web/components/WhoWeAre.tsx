@@ -11,7 +11,7 @@ export default function WhoWeAre() {
   return (
     <section className="relative min-h-[70vh] w-full overflow-hidden bg-black px-6 py-28 sm:px-10 lg:px-16">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-75">
-        <div className="h-[125vw] w-[125vw] max-h-[1100px] max-w-[1100px] sm:h-[900px] sm:w-[900px]">
+        <div className="h-[105vw] w-[105vw] max-h-[850px] max-w-[850px] sm:h-[700px] sm:w-[700px]">
           <Orb hue={145} hoverIntensity={0.35} rotateOnHover backgroundColor="#000000" />
         </div>
       </div>
