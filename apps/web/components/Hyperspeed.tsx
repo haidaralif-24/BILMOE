@@ -1094,6 +1094,7 @@ class App {
   }
 
   init() {
+    if (this.disposed) return;
     this.initPasses();
     const options = this.options;
     this.road.init();
