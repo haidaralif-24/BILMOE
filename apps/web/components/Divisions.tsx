@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import CardSwap, { Card } from '@/components/CardSwap';
+import ShapeGrid from '@/components/ShapeGrid';
 import { colors } from '@/lib/design-tokens';
 
 const divisions = [
@@ -15,7 +16,19 @@ export default function Divisions() {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-zinc-950 px-6 py-24 sm:px-10 lg:px-16">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,rgba(255,255,255,0.045),transparent_36%)]" />
+      <div className="pointer-events-none absolute inset-0 opacity-90">
+        <ShapeGrid
+          direction="diagonal"
+          speed={0.45}
+          borderColor="rgba(173,237,80,0.16)"
+          squareSize={46}
+          hoverFillColor="rgba(173,237,80,0.14)"
+          shape="square"
+          hoverTrailAmount={10}
+        />
+      </div>
+      <div className="pointer-events-none absolute inset-0 bg-zinc-950/55" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,rgba(173,237,80,0.09),transparent_38%)]" />
 
       <motion.div
         className="relative z-10 mx-auto flex min-h-[calc(100vh-12rem)] max-w-7xl flex-col items-center justify-center gap-12 lg:grid lg:grid-cols-2 lg:gap-8"
@@ -58,7 +71,7 @@ export default function Divisions() {
             {divisions.map((division, index) => (
               <Card
                 key={division.title}
-                className="flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-white/10 bg-zinc-900/95 p-7 shadow-[0_12px_32px_rgba(0,0,0,0.28)] sm:p-9"
+                className="flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-white/10 bg-zinc-900/90 p-7 shadow-[0_12px_32px_rgba(0,0,0,0.28)] backdrop-blur-md sm:p-9"
                 style={{ borderColor: `${division.accent}30` }}
               >
                 <div>
