@@ -919,7 +919,7 @@ class App {
   container: HTMLElement;
   options: HyperspeedOptions;
   renderer: THREE.WebGLRenderer;
-  composer!: EffectComposer;
+  composer: EffectComposer;
   camera: THREE.PerspectiveCamera;
   scene: THREE.Scene;
   renderPass!: RenderPass;
@@ -959,11 +959,12 @@ class App {
     this.renderer.setSize(initW, initH, false);
     this.renderer.setPixelRatio(window.devicePixelRatio);
 
+    this.composer = new EffectComposer(this.renderer);
     container.appendChild(this.renderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(options.fov, initW / initH, 0.1, 10000);
     this.camera.position.z = -5;
-    this.camera.position.y = 0;
+    this.camera.position.y = 8;
     this.camera.position.x = 0;
 
     this.scene = new THREE.Scene();
@@ -1007,11 +1008,14 @@ class App {
 
     this.tick = this.tick.bind(this);
     this.init = this.init.bind(this);
+    this.setSize = this.setSize.bind(this);
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
     this.onContextMenu = this.onContextMenu.bind(this);
+
     this.onWindowResize = this.onWindowResize.bind(this);
 
     window.addEventListener('resize', this.onWindowResize);
@@ -1040,7 +1044,6 @@ class App {
   }
 
   initPasses() {
-    this.composer = new EffectComposer(this.renderer);
     this.renderPass = new RenderPass(this.scene, this.camera);
     this.bloomPass = new EffectPass(
       this.camera,
@@ -1234,6 +1237,10 @@ class App {
     }
   }
 
+  setSize(width: number, height: number, updateStyles: boolean) {
+    this.composer.setSize(width, height, updateStyles);
+  }
+
   tick() {
     if (this.disposed) return;
 
@@ -1253,7 +1260,7 @@ class App {
       }
     }
 
-    if (this.composer && resizeRendererToDisplaySize(this.renderer, this.composer.setSize.bind(this.composer))) {
+    if (resizeRendererToDisplaySize(this.renderer, this.setSize)) {
       const canvas = this.renderer.domElement;
       if (this.hasValidSize) {
         this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
