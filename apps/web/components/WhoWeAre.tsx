@@ -9,7 +9,7 @@ export default function WhoWeAre() {
   const prefersReduced = useReducedMotion();
 
   return (
-    <section className="relative min-h-[70vh] w-full overflow-hidden bg-black px-6 py-28 sm:px-10 lg:px-16">
+    <section className="section-snap relative min-h-screen w-full overflow-hidden bg-black px-6 py-20 sm:px-10 sm:py-24 lg:px-16 lg:py-28">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-75">
         <div className="h-[105vw] w-[105vw] max-h-[850px] max-w-[850px] sm:h-[700px] sm:w-[700px]">
           <Orb hue={145} hoverIntensity={0.35} rotateOnHover backgroundColor="#000000" />
@@ -20,7 +20,7 @@ export default function WhoWeAre() {
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.35),transparent_25%,transparent_75%,rgba(0,0,0,0.65))]" />
 
       <motion.div
-        className="relative z-10 mx-auto flex max-w-5xl flex-col items-center justify-center text-center"
+        className="relative z-10 mx-auto flex min-h-[calc(100vh-10rem)] max-w-5xl flex-col items-center justify-center text-center sm:min-h-[calc(100vh-12rem)]"
         initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 30 }}
         whileInView={prefersReduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
@@ -38,7 +38,7 @@ export default function WhoWeAre() {
           B-ILMOE adalah platform media dan penelitian independen yang didedikasikan untuk membuka ruang eksplorasi ilmu pengetahuan, karya seni, dan dinamika sosial-politik bagi generasi muda. Kami percaya bahwa setiap rasa ingin tahu berhak dipublikasikan secara tepercaya, ilmiah, dan mudah diakses oleh semua kalangan.
         </p>
 
-        <div className="mt-12 grid w-full max-w-4xl grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8">
+        <div className="mt-10 grid w-full max-w-4xl grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-3 sm:gap-8">
           <div className="rounded-2xl border border-white/10 bg-zinc-950/55 p-6 backdrop-blur-md transition-colors hover:border-white/20" style={{ boxShadow: `0 0 20px ${colors.stem}08` }}>
             <h3 className="mb-2 font-display text-lg font-bold" style={{ color: colors.stem }}>Eksplorasi</h3>
             <p className="text-xs leading-6 text-white/60">Wadah terbuka untuk riset, ide-ide inovatif, dan wawasan interdisipliner.</p>
@@ -55,6 +55,15 @@ export default function WhoWeAre() {
           </div>
         </div>
       </motion.div>
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-20 bg-[linear-gradient(to_bottom,transparent,rgba(173,237,80,0.025)_45%,rgba(173,237,80,0.07)_82%,rgba(173,237,80,0.12))]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-[8%] bottom-0 z-30 h-px bg-[linear-gradient(to_right,transparent,rgba(173,237,80,0.12)_20%,rgba(173,237,80,0.28)_50%,rgba(173,237,80,0.12)_80%,transparent)] shadow-[0_0_18px_rgba(173,237,80,0.12)]"
+      />
     </section>
   );
 }
