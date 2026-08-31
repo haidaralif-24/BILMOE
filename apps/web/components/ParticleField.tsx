@@ -10,7 +10,7 @@ interface ParticleFieldProps {
 
 const ParticleField: React.FC<ParticleFieldProps> = ({
   particleCount = 60,
-  particleColor = '#C6FF3D',
+  particleColor = '#ADED50',
   className = ''
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);

@@ -3,7 +3,9 @@ export const colors = {
   surface: '#12162A',
   text: '#EEF0FB',
   muted: '#8890B3',
-  stem: '#C6FF3D',
-  arts: '#FF3FAE',
-  social: '#3FD7FF',
+  stem: '#ADED50',
+  arts: '#FF5CA1',
+  social: '#FF7B1C',
+  danger: '#ED2626',
+  warning: '#FCD717',
 } as const;

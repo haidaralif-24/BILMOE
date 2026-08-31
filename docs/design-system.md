@@ -22,9 +22,11 @@ restraint here.
 | `surface` | `#12162A` | Cards, elevated panels |
 | `text` | `#EEF0FB` | Primary text |
 | `muted` | `#8890B3` | Secondary text, captions |
-| `stem` | `#C6FF3D` | STEM division accent (acid lime) |
-| `arts` | `#FF3FAE` | Arts division accent (hot magenta) |
-| `social` | `#3FD7FF` | Social/socio-politic division accent (electric cyan) |
+| `stem` | `#ADED50` | STEM division accent (green) |
+| `arts` | `#FF5CA1` | Arts division accent (pink) |
+| `social` | `#FF7B1C` | Social/socio-politic division accent (orange) |
+| `danger` | `#ED2626` | Danger/error accent (red) |
+| `warning` | `#FCD717` | Warning accent (yellow) |
 
 Rules:
 - A division's color is used consistently everywhere that division shows up

@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
   <defs>
     <linearGradient id="neon" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#C6FF3D" />
-      <stop offset="50%" stop-color="#FF3FAE" />
-      <stop offset="100%" stop-color="#3FD7FF" />
+      <stop offset="0%" stop-color="#ADED50" />
+      <stop offset="50%" stop-color="#FF5CA1" />
+      <stop offset="100%" stop-color="#FF7B1C" />
     </linearGradient>
     <radialGradient id="glow" cx="50%" cy="50%" r="60%">
-      <stop offset="0%" stop-color="#FF3FAE" stop-opacity="0.6" />
+      <stop offset="0%" stop-color="#FF5CA1" stop-opacity="0.6" />
       <stop offset="100%" stop-color="#0A0C14" stop-opacity="0" />
     </radialGradient>
   </defs>

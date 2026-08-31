@@ -63,7 +63,7 @@ function HeroInner({ prefersReduced }: { prefersReduced: boolean }) {
       />
 
       <motion.div
-        className="relative z-10 flex h-full w-full max-w-6xl flex-col items-center justify-center gap-7 px-4 text-center"
+        className="relative z-10 mx-auto flex h-full w-full max-w-6xl flex-col items-center justify-center gap-7 px-4 text-center"
         style={prefersReduced ? undefined : { opacity: contentOpacity, scale: heroScale, y: heroY, willChange: 'transform, opacity' }}
       >
         <motion.div
@@ -136,5 +136,5 @@ export default function Hero() {
     );
   }
 
-  return <HeroInner prefersReduced={prefersReduced} />;
+  return <HeroInner prefersReduced={prefersReduced ?? false} />;
 }

@@ -42,17 +42,19 @@
   --color-card: var(--card);
 
   /* BILMOE neon identity */
-  --color-stem: #c8ff3d;
-  --color-arts: #ff4dcc;
-  --color-social: #43e7ff;
-  --color-neon-cyan: #43e7ff;
-  --color-neon-violet: #9b6cff;
-  --color-neon-pink: #ff4dcc;
-  --color-neon-lime: #c8ff3d;
-  --color-bil-bg: #070a12;
-  --color-surface: #0d1220;
-  --color-bil-text: #effbff;
-  --color-bil-muted: #8998b8;
+  --color-stem: #aded50;
+  --color-arts: #ff5ca1;
+  --color-social: #ff7b1c;
+  --color-danger: #ed2626;
+  --color-warning: #fcd717;
+  --color-neon-cyan: #ff7b1c;
+  --color-neon-violet: #ff5ca1;
+  --color-neon-pink: #ff5ca1;
+  --color-neon-lime: #aded50;
+  --color-bil-bg: #0a0c14;
+  --color-surface: #12162a;
+  --color-bil-text: #eef0fb;
+  --color-bil-muted: #8890b3;
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -65,79 +67,79 @@
 
 :root {
   /* Dark-first neon palette: bright accents need a quiet surface to glow against. */
-  --background: #070a12;
-  --foreground: #effbff;
-  --card: #0d1220;
-  --card-foreground: #effbff;
-  --popover: #0d1220;
-  --popover-foreground: #effbff;
+  --background: #0a0c14;
+  --foreground: #eef0fb;
+  --card: #12162a;
+  --card-foreground: #eef0fb;
+  --popover: #12162a;
+  --popover-foreground: #eef0fb;
 
-  /* Primary = electric cyan; violet/pink are supporting accents. */
-  --primary: #43e7ff;
-  --primary-foreground: #031017;
+  /* Primary = green accent; pink/orange are supporting accents. */
+  --primary: #aded50;
+  --primary-foreground: #0a0c14;
   --secondary: #15142a;
-  --secondary-foreground: #e9e5ff;
+  --secondary-foreground: #eef0fb;
   --muted: #111727;
-  --muted-foreground: #8998b8;
+  --muted-foreground: #8890b3;
   --accent: #1a1832;
-  --accent-foreground: #f1edff;
-  --destructive: #ff5577;
-  --border: rgba(103, 218, 255, 0.14);
-  --input: rgba(103, 218, 255, 0.18);
-  --ring: #43e7ff;
+  --accent-foreground: #eef0fb;
+  --destructive: #ed2626;
+  --border: rgba(173, 237, 80, 0.14);
+  --input: rgba(173, 237, 80, 0.18);
+  --ring: #aded50;
 
   /* Data visualization follows the same neon spectrum. */
-  --chart-1: #43e7ff;
-  --chart-2: #9b6cff;
-  --chart-3: #ff4dcc;
-  --chart-4: #c8ff3d;
-  --chart-5: #ffcf5a;
+  --chart-1: #aded50;
+  --chart-2: #ff5ca1;
+  --chart-3: #ff7b1c;
+  --chart-4: #fcd717;
+  --chart-5: #ed2626;
 
   --radius: 0.625rem;
 
   --sidebar: #090d18;
-  --sidebar-foreground: #effbff;
-  --sidebar-primary: #43e7ff;
-  --sidebar-primary-foreground: #031017;
+  --sidebar-foreground: #eef0fb;
+  --sidebar-primary: #aded50;
+  --sidebar-primary-foreground: #0a0c14;
   --sidebar-accent: #15142a;
-  --sidebar-accent-foreground: #f1edff;
-  --sidebar-border: rgba(103, 218, 255, 0.12);
-  --sidebar-ring: #43e7ff;
+  --sidebar-accent-foreground: #eef0fb;
+  --sidebar-border: rgba(173, 237, 80, 0.12);
+  --sidebar-ring: #aded50;
 }
 
 /* Keep .dark compatible with shadcn/theme toggles while making the neon theme the default. */
 .dark {
-  --background: #070a12;
-  --foreground: #effbff;
-  --card: #0d1220;
-  --card-foreground: #effbff;
-  --popover: #0d1220;
-  --popover-foreground: #effbff;
-  --primary: #43e7ff;
-  --primary-foreground: #031017;
+  --background: #0a0c14;
+  --foreground: #eef0fb;
+  --card: #12162a;
+  --card-foreground: #eef0fb;
+  --popover: #12162a;
+  --popover-foreground: #eef0fb;
+  --primary: #aded50;
+  --primary-foreground: #0a0c14;
   --secondary: #15142a;
-  --secondary-foreground: #e9e5ff;
+  --secondary-foreground: #eef0fb;
   --muted: #111727;
-  --muted-foreground: #8998b8;
+  --muted-foreground: #8890b3;
   --accent: #1a1832;
-  --accent-foreground: #f1edff;
-  --destructive: #ff5577;
-  --border: rgba(103, 218, 255, 0.14);
-  --input: rgba(103, 218, 255, 0.18);
-  --ring: #43e7ff;
-  --chart-1: #43e7ff;
-  --chart-2: #9b6cff;
-  --chart-3: #ff4dcc;
-  --chart-4: #c8ff3d;
-  --chart-5: #ffcf5a;
+  --accent-foreground: #eef0fb;
+  --destructive: #ed2626;
+  --border: rgba(173, 237, 80, 0.14);
+  --input: rgba(173, 237, 80, 0.18);
+  --ring: #aded50;
+  --chart-1: #aded50;
+  --chart-2: #ff5ca1;
+  --chart-3: #ff7b1c;
+  --chart-4: #fcd717;
+  --chart-5: #ed2626;
   --sidebar: #090d18;
-  --sidebar-foreground: #effbff;
-  --sidebar-primary: #43e7ff;
-  --sidebar-primary-foreground: #031017;
+  --sidebar-foreground: #eef0fb;
+  --sidebar-primary: #aded50;
+  --sidebar-primary-foreground: #0a0c14;
   --sidebar-accent: #15142a;
-  --sidebar-accent-foreground: #f1edff;
-  --sidebar-border: rgba(103, 218, 255, 0.12);
-  --sidebar-ring: #43e7ff;
+  --sidebar-accent-foreground: #eef0fb;
+  --sidebar-border: rgba(173, 237, 80, 0.12);
+  --sidebar-ring: #aded50;
 }
 
 @layer base {
@@ -155,7 +157,7 @@
   }
 
   ::selection {
-    background: rgba(67, 231, 255, 0.28);
+    background: rgba(173, 237, 80, 0.28);
     color: #ffffff;
   }
 }
@@ -163,17 +165,17 @@
 @layer utilities {
   /* Use these sparingly: neon looks better when luminosity has hierarchy. */
   .neon-glow {
-    text-shadow: 0 0 10px rgba(67, 231, 255, 0.45);
+    text-shadow: 0 0 10px rgba(173, 237, 80, 0.45);
   }
 
   .neon-border {
-    border-color: rgba(67, 231, 255, 0.28);
+    border-color: rgba(173, 237, 80, 0.28);
     box-shadow:
-      0 0 0 1px rgba(67, 231, 255, 0.04),
-      0 0 22px rgba(67, 231, 255, 0.06);
+      0 0 0 1px rgba(173, 237, 80, 0.04),
+      0 0 22px rgba(173, 237, 80, 0.06);
   }
 
   .neon-surface {
-    background: linear-gradient(135deg, rgba(67, 231, 255, 0.055), rgba(155, 108, 255, 0.045)), var(--card);
+    background: linear-gradient(135deg, rgba(173, 237, 80, 0.055), rgba(255, 92, 161, 0.045)), var(--card);
   }
 }
