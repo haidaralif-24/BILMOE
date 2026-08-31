@@ -1033,7 +1033,9 @@ class App {
     this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
-    this.composer.setSize(width, height);
+    if (this.composer) {
+      this.composer.setSize(width, height);
+    }
     this.hasValidSize = true;
   }
 
@@ -1092,6 +1094,7 @@ class App {
   }
 
   init() {
+    if (this.disposed) return;
     this.initPasses();
     const options = this.options;
     this.road.init();
@@ -1180,7 +1183,9 @@ class App {
   }
 
   render(delta: number) {
-    this.composer.render(delta);
+    if (this.composer) {
+      this.composer.render(delta);
+    }
   }
 
   dispose() {
@@ -1248,7 +1253,7 @@ class App {
       }
     }
 
-    if (resizeRendererToDisplaySize(this.renderer, this.composer.setSize.bind(this.composer))) {
+    if (this.composer && resizeRendererToDisplaySize(this.renderer, this.composer.setSize.bind(this.composer))) {
       const canvas = this.renderer.domElement;
       if (this.hasValidSize) {
         this.camera.aspect = canvas.clientWidth / canvas.clientHeight;
