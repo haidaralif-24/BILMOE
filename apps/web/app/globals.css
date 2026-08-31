@@ -152,11 +152,6 @@
 
   body {
     @apply min-h-screen bg-background text-foreground;
-    background:
-      radial-gradient(circle at 8% 12%, rgba(67, 231, 255, 0.075), transparent 30rem),
-      radial-gradient(circle at 92% 18%, rgba(155, 108, 255, 0.07), transparent 28rem),
-      radial-gradient(circle at 52% 100%, rgba(255, 77, 204, 0.045), transparent 34rem),
-      var(--background);
   }
 
   ::selection {
