@@ -26,6 +26,9 @@ export interface StrokeTextProps {
   reverse?: boolean;
   className?: string;
   style?: CSSProperties;
+  glow?: boolean;
+  glowColor?: string;
+  glowIntensity?: number;
 }
 
 interface StrokeTextBox {
@@ -53,7 +56,10 @@ const StrokeText = ({
   letterSpacing = -4,
   reverse = false,
   className = '',
-  style = {}
+  style = {},
+  glow = true,
+  glowColor = strokeColor,
+  glowIntensity = 1,
 }: StrokeTextProps) => {
   const rootRef = useRef<HTMLSpanElement | null>(null);
   const strokeTextRef = useRef<SVGTextElement | null>(null);
@@ -63,6 +69,7 @@ const StrokeText = ({
 
   const rawId = useId();
   const wipeId = `stroke-text-wipe-${rawId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
+  const glowFilterId = `stroke-text-glow-${rawId.replace(/[^a-zA-Z0-9_-]/g, '')}`;
 
   const characters = useMemo(() => Array.from(String(text ?? '')), [text]);
 
@@ -126,6 +133,7 @@ const StrokeText = ({
     if (typeof window === 'undefined' || !root || !box) return undefined;
 
     const strokes = gsap.utils.toArray(root.querySelectorAll('[data-stroke-char]'));
+    const glowStrokes = gsap.utils.toArray(root.querySelectorAll('[data-glow-char]'));
     const fills = gsap.utils.toArray(root.querySelectorAll('[data-fill-char]'));
     const wipe = wipeRectRef.current;
     if (!strokes.length) return undefined;
@@ -134,11 +142,12 @@ const StrokeText = ({
     const useWipe = fillEnabled && fillMode === 'wipe';
     const fillDuration = Math.max(0.4, drawDuration * 0.5);
     const staggerConfig: number | gsap.StaggerVars = reverse ? { each: stagger, from: 'end' as const } : stagger;
-    const targets = [...strokes, ...fills, wipe].filter(Boolean);
+    const targets = [...strokes, ...glowStrokes, ...fills, wipe].filter(Boolean);
 
     const setStart = () => {
       gsap.killTweensOf(targets);
       gsap.set(strokes, { strokeDasharray: dash, strokeDashoffset: dash });
+      gsap.set(glowStrokes, { strokeDasharray: dash, strokeDashoffset: dash });
       gsap.set(fills, { opacity: useWipe ? 1 : 0 });
       if (wipe) gsap.set(wipe, { attr: { width: 0 } });
     };
@@ -146,6 +155,7 @@ const StrokeText = ({
     const setEnd = () => {
       gsap.killTweensOf(targets);
       gsap.set(strokes, { strokeDasharray: dash, strokeDashoffset: 0 });
+      gsap.set(glowStrokes, { strokeDasharray: dash, strokeDashoffset: 0 });
       gsap.set(fills, { opacity: fillEnabled ? 1 : 0 });
       if (wipe) gsap.set(wipe, { attr: { width: fillEnabled ? box.width : 0 } });
     };
@@ -165,7 +175,23 @@ const StrokeText = ({
         defaults: { overwrite: 'auto' }
       });
 
-      tl.to(strokes, { strokeDashoffset: 0, duration: drawDuration, ease, stagger: staggerConfig }, 0);
+      // The glow uses the exact same dash animation as the original stroke,
+      // so it follows the letter contours instead of creating a rectangular box.
+      if (glow) {
+        tl.to(glowStrokes, {
+          strokeDashoffset: 0,
+          duration: drawDuration,
+          ease,
+          stagger: staggerConfig,
+        }, 0);
+      }
+
+      tl.to(strokes, {
+        strokeDashoffset: 0,
+        duration: drawDuration,
+        ease,
+        stagger: staggerConfig,
+      }, 0);
 
       if (useWipe && wipe) {
         tl.to(
@@ -217,9 +243,10 @@ const StrokeText = ({
       timeline?.kill();
       gsap.killTweensOf(targets);
     };
-  }, [box, dash, drawDuration, fillDelay, stagger, ease, trigger, fillMode, reverse]);
+  }, [box, dash, drawDuration, fillDelay, stagger, ease, trigger, fillMode, reverse, glow]);
 
   const viewBox = box ? `${box.x} ${box.y} ${box.width} ${box.height}` : `0 ${-fontSize} 600 ${fontSize * 1.3}`;
+  const glowOpacity = Math.max(0, Math.min(1, 0.72 * glowIntensity));
 
   return (
     <span
@@ -231,17 +258,57 @@ const StrokeText = ({
     >
       <svg
         className="block w-full"
-        style={{ height: `${Math.round(fontSize * 1.3)}px` }}
+        style={{ height: `${Math.round(fontSize * 1.3)}px`, overflow: 'visible' }}
         viewBox={viewBox}
         preserveAspectRatio="xMidYMid meet"
         aria-hidden="true"
       >
-        {fillMode === 'wipe' && box && (
-          <defs>
+        <defs>
+          {glow && (
+            <filter
+              id={glowFilterId}
+              x="-80%"
+              y="-80%"
+              width="260%"
+              height="260%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feGaussianBlur stdDeviation="3" result="blur1" />
+              <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur2" />
+              <feMerge>
+                <feMergeNode in="blur2" />
+                <feMergeNode in="blur1" />
+              </feMerge>
+            </filter>
+          )}
+
+          {fillMode === 'wipe' && box && (
             <clipPath id={wipeId} clipPathUnits="userSpaceOnUse">
               <rect ref={wipeRectRef} x={box.x} y={box.y} width="0" height={box.height} />
             </clipPath>
-          </defs>
+          )}
+        </defs>
+
+        {glow && (
+          <text
+            className="select-none pointer-events-none"
+            x="0"
+            y="0"
+            fill="none"
+            stroke={glowColor}
+            strokeWidth={Math.max(strokeWidth * 2.5, 3.5)}
+            strokeLinejoin="round"
+            strokeLinecap="round"
+            filter={`url(#${glowFilterId})`}
+            opacity={glowOpacity}
+            style={fontStyle}
+          >
+            {characters.map((char, index) => (
+              <tspan data-glow-char key={`g-${index}`}>
+                {char}
+              </tspan>
+            ))}
+          </text>
         )}
 
         <text
