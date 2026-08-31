@@ -6,100 +6,147 @@ type FullPageScrollerProps = {
   children: ReactNode;
 };
 
-const TRANSITION_MS = 720;
-const WHEEL_THRESHOLD = 18;
+const TRANSITION_MS = 680;
+const WHEEL_THRESHOLD = 22;
 const TOUCH_THRESHOLD = 55;
 
 export default function FullPageScroller({ children }: FullPageScrollerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const lockedRef = useRef(false);
+  const indexRef = useRef(0);
   const touchStartY = useRef<number | null>(null);
+  const unlockTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const sections = () => Array.from(container.children).filter(
-      (child): child is HTMLElement => child instanceof HTMLElement && child.dataset.fullpageSection === 'true'
-    );
+    const getSections = () =>
+      Array.from(container.children).filter(
+        (child): child is HTMLElement =>
+          child instanceof HTMLElement && child.dataset.fullpageSection === 'true'
+      );
 
-    let index = 0;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     const syncIndex = () => {
-      const current = sections();
-      const closest = current.reduce((best, section, i) => {
-        const distance = Math.abs(section.getBoundingClientRect().top);
-        return distance < best.distance ? { i, distance } : best;
-      }, { i: index, distance: Number.POSITIVE_INFINITY });
-      index = closest.i;
+      const sections = getSections();
+      if (!sections.length) return;
+
+      const scrollTop = container.scrollTop;
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      sections.forEach((section, i) => {
+        const distance = Math.abs(section.offsetTop - scrollTop);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = i;
+        }
+      });
+
+      indexRef.current = closestIndex;
     };
 
     const goTo = (nextIndex: number) => {
-      const current = sections();
-      if (lockedRef.current || nextIndex < 0 || nextIndex >= current.length) return;
+      const sections = getSections();
+      if (lockedRef.current || nextIndex < 0 || nextIndex >= sections.length) return;
 
       lockedRef.current = true;
-      index = nextIndex;
-      current[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      indexRef.current = nextIndex;
 
-      window.setTimeout(() => {
+      container.scrollTo({
+        top: sections[nextIndex].offsetTop,
+        behavior: prefersReducedMotion.matches ? 'auto' : 'smooth',
+      });
+
+      if (unlockTimer.current !== null) window.clearTimeout(unlockTimer.current);
+      unlockTimer.current = window.setTimeout(() => {
         lockedRef.current = false;
-      }, TRANSITION_MS);
+      }, prefersReducedMotion.matches ? 80 : TRANSITION_MS);
+    };
+
+    const navigate = (direction: 1 | -1) => {
+      syncIndex();
+      goTo(indexRef.current + direction);
     };
 
     const onWheel = (event: WheelEvent) => {
       if (Math.abs(event.deltaY) < WHEEL_THRESHOLD) return;
       event.preventDefault();
-      syncIndex();
-      goTo(index + (event.deltaY > 0 ? 1 : -1));
+      navigate(event.deltaY > 0 ? 1 : -1);
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null;
-      if (target?.matches('input, textarea, select, [contenteditable="true"]')) return;
+      if (target?.matches('input, textarea, select, button, a, [contenteditable="true"]')) return;
 
-      let direction = 0;
+      if (event.key === 'Home') {
+        event.preventDefault();
+        goTo(0);
+        return;
+      }
+      if (event.key === 'End') {
+        event.preventDefault();
+        goTo(getSections().length - 1);
+        return;
+      }
+
+      let direction: 1 | -1 | 0 = 0;
       if (event.key === 'ArrowDown' || event.key === 'PageDown' || event.key === ' ') direction = 1;
       if (event.key === 'ArrowUp' || event.key === 'PageUp') direction = -1;
       if (!direction) return;
 
       event.preventDefault();
-      syncIndex();
-      goTo(index + direction);
+      navigate(direction);
     };
 
     const onTouchStart = (event: TouchEvent) => {
       touchStartY.current = event.touches[0]?.clientY ?? null;
     };
 
+    const onTouchMove = (event: TouchEvent) => {
+      if (touchStartY.current !== null) event.preventDefault();
+    };
+
     const onTouchEnd = (event: TouchEvent) => {
       if (touchStartY.current === null) return;
       const endY = event.changedTouches[0]?.clientY;
-      if (endY === undefined) return;
-
-      const delta = touchStartY.current - endY;
+      const delta = endY === undefined ? 0 : touchStartY.current - endY;
       touchStartY.current = null;
-      if (Math.abs(delta) < TOUCH_THRESHOLD) return;
+      if (Math.abs(delta) >= TOUCH_THRESHOLD) navigate(delta > 0 ? 1 : -1);
+    };
 
-      syncIndex();
-      goTo(index + (delta > 0 ? 1 : -1));
+    const onScroll = () => {
+      if (!lockedRef.current) syncIndex();
     };
 
     container.addEventListener('wheel', onWheel, { passive: false });
-    window.addEventListener('keydown', onKeyDown);
     container.addEventListener('touchstart', onTouchStart, { passive: true });
+    container.addEventListener('touchmove', onTouchMove, { passive: false });
     container.addEventListener('touchend', onTouchEnd, { passive: true });
+    container.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('keydown', onKeyDown);
+
+    syncIndex();
 
     return () => {
       container.removeEventListener('wheel', onWheel);
-      window.removeEventListener('keydown', onKeyDown);
       container.removeEventListener('touchstart', onTouchStart);
+      container.removeEventListener('touchmove', onTouchMove);
       container.removeEventListener('touchend', onTouchEnd);
+      container.removeEventListener('scroll', onScroll);
+      window.removeEventListener('keydown', onKeyDown);
+      if (unlockTimer.current !== null) window.clearTimeout(unlockTimer.current);
     };
   }, []);
 
   return (
-    <div ref={containerRef} className="full-page-scroller h-screen overflow-y-auto overflow-x-hidden">
+    <div
+      ref={containerRef}
+      className="full-page-scroller h-dvh w-full overflow-x-hidden overflow-y-auto overscroll-none"
+      style={{ scrollSnapType: 'none', WebkitOverflowScrolling: 'touch' }}
+    >
       {children}
     </div>
   );
