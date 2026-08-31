@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import StrokeText from '@/components/StrokeText';
-import Hyperspeed from '@/components/Hyperspeed';
+import SoftAurora from '@/components/SoftAurora';
 import { colors } from '@/lib/design-tokens';
 
 const bgVariants: Variants = {
@@ -33,10 +33,10 @@ export default function Hero() {
         initial="hidden"
         animate="visible"
       >
-        <Hyperspeed />
+        <SoftAurora />
       </motion.div>
-      {/* Dark scrim so the hero text stays readable over the road */}
-      <div className="pointer-events-none absolute inset-0 z-[1] bg-black/25" />
+      {/* Soft dark scrim so the hero text stays readable over the aurora */}
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-black/20" />
       <StrokeText
         text="B-ILMOE"
         strokeColor={colors.stem}
