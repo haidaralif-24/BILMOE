@@ -27,14 +27,14 @@ export default function Divisions() {
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-zinc-950 px-6 py-24 sm:px-10 lg:px-16">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,rgba(255,255,255,0.055),transparent_38%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_50%,rgba(255,255,255,0.045),transparent_36%)]" />
 
       <motion.div
         className="relative z-10 mx-auto flex min-h-[calc(100vh-12rem)] max-w-7xl flex-col items-center justify-center gap-12 lg:grid lg:grid-cols-2 lg:gap-8"
-        initial={prefersReduced ? { opacity: 1 } : { opacity: 0, transform: 'translate3d(0,40px,0)' }}
-        whileInView={prefersReduced ? { opacity: 1 } : { opacity: 1, transform: 'translate3d(0,0,0)' }}
+        initial={prefersReduced ? { opacity: 1 } : { opacity: 0, y: 32 }}
+        whileInView={prefersReduced ? { opacity: 1 } : { opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="max-w-xl lg:pr-10">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em] text-white/40">
@@ -52,17 +52,17 @@ export default function Divisions() {
           <CardSwap
             width="min(42vw, 560px)"
             height="300px"
-            cardDistance={42}
-            verticalDistance={38}
-            delay={5000}
+            cardDistance={34}
+            verticalDistance={32}
+            delay={5500}
             pauseOnHover={false}
-            skewAmount={4}
-            easing="elastic"
+            skewAmount={3}
+            easing="linear"
           >
             {divisions.map((division, index) => (
               <Card
                 key={division.title}
-                className="cursor-pointer flex flex-col justify-between overflow-hidden border-white/10 bg-zinc-900/95 p-7 shadow-[0_16px_40px_rgba(0,0,0,0.32)] transition-shadow duration-300 hover:shadow-[0_20px_50px_rgba(0,0,0,0.42)] sm:p-9"
+                className="flex cursor-pointer flex-col justify-between overflow-hidden rounded-3xl border-white/10 bg-zinc-900/95 p-7 shadow-[0_12px_32px_rgba(0,0,0,0.28)] sm:p-9"
                 style={{ borderColor: `${division.accent}30` }}
               >
                 <div>
