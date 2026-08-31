@@ -147,17 +147,39 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
         >
-          <div
-            className="rounded-2xl border border-white/15 bg-black/35 px-6 py-5 text-center shadow-[0_0_35px_rgba(255,255,255,0.06)] backdrop-blur-md sm:px-10 sm:py-6"
-            style={{
-              boxShadow: `0 0 30px ${colors.stem}18, inset 0 0 24px ${colors.stem}08`,
-              borderColor: `${colors.stem}35`,
-            }}
+          <motion.div
+            animate={
+              prefersReduced
+                ? undefined
+                : {
+                    x: [0, -2, 2, -1, 0],
+                    y: [0, 3, -2, 2, 0],
+                    rotate: [0, -0.2, 0.2, -0.12, 0],
+                  }
+            }
+            transition={
+              prefersReduced
+                ? undefined
+                : {
+                    duration: 10,
+                    repeat: Infinity,
+                    repeatType: 'mirror',
+                    ease: 'easeInOut',
+                  }
+            }
           >
-            <p className="font-display text-sm leading-7 text-white/75 sm:text-base sm:leading-8">
-              Menyediakan wadah eksplorasi ilmu, memublikasikan penelitian teruji, dan mewujudkan media yang mudah diakses
-            </p>
-          </div>
+            <div
+              className="rounded-2xl border border-white/15 bg-black/35 px-6 py-5 text-center shadow-[0_0_35px_rgba(255,255,255,0.06)] backdrop-blur-md sm:px-10 sm:py-6"
+              style={{
+                boxShadow: `0 0 30px ${colors.stem}18, inset 0 0 24px ${colors.stem}08`,
+                borderColor: `${colors.stem}35`,
+              }}
+            >
+              <p className="font-display text-sm leading-7 text-white/75 sm:text-base sm:leading-8">
+                Menyediakan wadah eksplorasi ilmu, memublikasikan penelitian teruji, dan mewujudkan media yang mudah diakses
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>
