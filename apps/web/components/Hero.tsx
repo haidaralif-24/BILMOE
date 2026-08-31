@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useReducedMotion, useScroll, useTransform, type Variants } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import StrokeText from '@/components/StrokeText';
 import SoftAurora from '@/components/SoftAurora';
 import { colors } from '@/lib/design-tokens';
@@ -36,8 +36,7 @@ const reducedTaglineIntro: Variants = {
   visible: { opacity: 1, transition: { duration: 0.2, ease: 'easeOut' } },
 };
 
-export default function Hero() {
-  const prefersReduced = useReducedMotion();
+function HeroInner({ prefersReduced }: { prefersReduced: boolean }) {
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
 
@@ -64,11 +63,11 @@ export default function Hero() {
       />
 
       <motion.div
-        className="relative z-10 flex h-full w-full max-w-6xl -translate-y-8 flex-col items-center justify-center gap-7 px-4 sm:-translate-y-10"
+        className="relative z-10 flex h-full w-full max-w-6xl -translate-y-8 flex-col items-center justify-center gap-7 px-4 text-center sm:-translate-y-10"
         style={prefersReduced ? undefined : { opacity: contentOpacity, scale: heroScale, y: heroY, willChange: 'transform, opacity' }}
       >
         <motion.div
-          className="w-full max-w-full"
+          className="mx-auto w-full max-w-full"
           variants={prefersReduced ? reducedLogoIntro : logoIntro}
           initial="hidden"
           animate="visible"
@@ -92,13 +91,13 @@ export default function Hero() {
               fontSize={140}
               fontWeight={700}
               letterSpacing={-4}
-              className="font-display"
+              className="font-display mx-auto"
             />
           </motion.div>
         </motion.div>
 
         <motion.div
-          className="w-full max-w-2xl px-4 sm:px-6"
+          className="mx-auto w-full max-w-2xl px-4 sm:px-6"
           variants={prefersReduced ? reducedTaglineIntro : taglineIntro}
           initial="hidden"
           animate="visible"
@@ -121,4 +120,21 @@ export default function Hero() {
       </motion.div>
     </section>
   );
+}
+
+export default function Hero() {
+  const [mounted, setMounted] = useState(false);
+  const prefersReduced = useReducedMotion();
+
+  useEffect(() => { setMounted(true); }, []);
+
+  if (!mounted) {
+    return (
+      <section className="relative h-screen w-full overflow-hidden bg-black">
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-black/20" />
+      </section>
+    );
+  }
+
+  return <HeroInner prefersReduced={prefersReduced} />;
 }
