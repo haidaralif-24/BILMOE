@@ -4,6 +4,7 @@ import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import MoltenMetal from '@/components/MoltenMetal';
 import StrokeText from '@/components/StrokeText';
 import ParticleField from '@/components/ParticleField';
+import BorderGlow from '@/components/BorderGlow';
 import { colors } from '@/lib/design-tokens';
 
 const bgVariants: Variants = {
@@ -60,22 +61,33 @@ export default function Hero() {
       </div>
 
       <div className="absolute inset-0 z-10 flex items-center justify-center px-4">
-        <StrokeText
-          text="B-ILMOE"
-          strokeColor={colors.stem}
-          fillColor={colors.text}
-          strokeWidth={1.4}
-          drawDuration={1.6}
-          fillDelay={0.3}
-          stagger={0.06}
-          ease="power2.out"
-          trigger="mount"
-          fillMode="wipe"
-          fontSize={140}
-          fontWeight={700}
-          letterSpacing={-4}
-          className="max-w-full font-display"
-        />
+        <BorderGlow
+          backgroundColor={colors.surface}
+          glowColor="85 80 65"
+          colors={[colors.stem, colors.arts, colors.social]}
+          animated
+          glowIntensity={1.2}
+          glowRadius={50}
+          borderRadius={20}
+          className="px-12 py-8 sm:px-16 sm:py-10"
+        >
+          <StrokeText
+            text="B-ILMOE"
+            strokeColor={colors.stem}
+            fillColor={colors.text}
+            strokeWidth={1.4}
+            drawDuration={1.6}
+            fillDelay={0.3}
+            stagger={0.06}
+            ease="power2.out"
+            trigger="mount"
+            fillMode="wipe"
+            fontSize={140}
+            fontWeight={700}
+            letterSpacing={-4}
+            className="max-w-full font-display"
+          />
+        </BorderGlow>
       </div>
     </div>
   );
