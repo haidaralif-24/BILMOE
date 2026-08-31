@@ -8,7 +8,7 @@ export default function Home() {
     <div className="flex flex-1 flex-col bg-black font-sans">
       <Hero />
       <WhoWeAre />
-      <SectionDivider color="stem" intensity={0.1} height="1.5px" />
+      <SectionDivider color="stem" intensity={0.3} height={3} />
       <Divisions />
     </div>
   );
