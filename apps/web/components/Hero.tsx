@@ -23,66 +23,42 @@ const reducedFade: Variants = {
 };
 
 const logoIntro: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-    scale: 0.94,
-    filter: 'blur(10px)',
-  },
+  hidden: { opacity: 0, y: 24, scale: 0.94, filter: 'blur(10px)' },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
     filter: 'blur(0px)',
-    transition: {
-      duration: 1.15,
-      delay: 0.2,
-      ease: [0.22, 1, 0.36, 1],
-    },
+    transition: { duration: 1.15, delay: 0.2, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 const reducedLogoIntro: Variants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.2, ease: 'easeOut' },
-  },
+  visible: { opacity: 1, transition: { duration: 0.2, ease: 'easeOut' } },
 };
 
 const taglineIntro: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 18,
-    scale: 0.97,
-    filter: 'blur(8px)',
-  },
+  hidden: { opacity: 0, y: 18, scale: 0.97, filter: 'blur(8px)' },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
     filter: 'blur(0px)',
-    transition: {
-      duration: 0.8,
-      delay: 1.35,
-      ease: [0.22, 1, 0.36, 1],
-    },
+    transition: { duration: 0.8, delay: 1.35, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 const reducedTaglineIntro: Variants = {
   hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.2, ease: 'easeOut' },
-  },
+  visible: { opacity: 1, transition: { duration: 0.2, ease: 'easeOut' } },
 };
 
 export default function Hero() {
   const prefersReduced = useReducedMotion();
 
   return (
-    <div className="relative h-screen w-full flex items-center justify-center bg-black px-4 overflow-hidden">
+    <div className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black px-4">
       <motion.div
         className="absolute inset-0 z-0"
         variants={prefersReduced ? reducedFade : bgVariants}
@@ -102,25 +78,9 @@ export default function Hero() {
           animate="visible"
         >
           <motion.div
-            animate={
-              prefersReduced
-                ? undefined
-                : {
-                    x: [0, 3, -2, 1, 0],
-                    y: [0, -5, 2, -3, 0],
-                    rotate: [0, 0.3, -0.25, 0.15, 0],
-                  }
-            }
-            transition={
-              prefersReduced
-                ? undefined
-                : {
-                    duration: 8,
-                    repeat: Infinity,
-                    repeatType: 'mirror',
-                    ease: 'easeInOut',
-                  }
-            }
+            className={prefersReduced ? undefined : 'will-change-transform'}
+            animate={prefersReduced ? undefined : { x: [0, 3, -2, 1, 0], y: [0, -5, 2, -3, 0], rotate: [0, 0.3, -0.25, 0.15, 0] }}
+            transition={prefersReduced ? undefined : { duration: 8, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
           >
             <StrokeText
               text="B-ILMOE"
@@ -148,31 +108,18 @@ export default function Hero() {
           animate="visible"
         >
           <motion.div
-            animate={
-              prefersReduced
-                ? undefined
-                : {
-                    x: [0, -2, 2, -1, 0],
-                    y: [0, 3, -2, 2, 0],
-                    rotate: [0, -0.2, 0.2, -0.12, 0],
-                  }
-            }
-            transition={
-              prefersReduced
-                ? undefined
-                : {
-                    duration: 10,
-                    repeat: Infinity,
-                    repeatType: 'mirror',
-                    ease: 'easeInOut',
-                  }
-            }
+            className={prefersReduced ? undefined : 'will-change-transform'}
+            animate={prefersReduced ? undefined : { x: [0, -2, 2, -1, 0], y: [0, 3, -2, 2, 0], rotate: [0, -0.2, 0.2, -0.12, 0] }}
+            transition={prefersReduced ? undefined : { duration: 10, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
           >
             <div
-              className="rounded-2xl border border-white/15 bg-black/35 px-6 py-5 text-center shadow-[0_0_35px_rgba(255,255,255,0.06)] backdrop-blur-md sm:px-10 sm:py-6"
+              className="rounded-2xl border bg-black/40 px-6 py-5 text-center sm:px-10 sm:py-6"
               style={{
-                boxShadow: `0 0 30px ${colors.stem}18, inset 0 0 24px ${colors.stem}08`,
-                borderColor: `${colors.stem}35`,
+                boxShadow: `0 0 24px ${colors.stem}12, inset 0 0 16px ${colors.stem}06`,
+                borderColor: `${colors.stem}30`,
+                willChange: 'transform',
+                transform: 'translateZ(0)',
+                backfaceVisibility: 'hidden',
               }}
             >
               <p className="font-display text-sm leading-7 text-white/75 sm:text-base sm:leading-8">
