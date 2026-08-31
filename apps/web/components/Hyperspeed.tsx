@@ -1017,7 +1017,6 @@ class App {
     this.onContextMenu = this.onContextMenu.bind(this);
 
     this.onWindowResize = this.onWindowResize.bind(this);
-
     window.addEventListener('resize', this.onWindowResize);
 
     if (container.offsetWidth > 0 && container.offsetHeight > 0) {
@@ -1037,9 +1036,7 @@ class App {
     this.renderer.setSize(width, height);
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
-    if (this.composer) {
-      this.composer.setSize(width, height);
-    }
+    this.composer.setSize(width, height);
     this.hasValidSize = true;
   }
 
@@ -1097,7 +1094,6 @@ class App {
   }
 
   init() {
-    if (this.disposed) return;
     this.initPasses();
     const options = this.options;
     this.road.init();
@@ -1186,9 +1182,7 @@ class App {
   }
 
   render(delta: number) {
-    if (this.composer) {
-      this.composer.render(delta);
-    }
+    this.composer.render(delta);
   }
 
   dispose() {
@@ -1323,4 +1317,4 @@ const Hyperspeed: FC<HyperspeedProps> = ({ effectOptions = DEFAULT_EFFECT_OPTION
   return <div id="lights" className="w-full h-full" ref={hyperspeed}></div>;
 };
 
-export default Hyperspeed;
+export default Hyperspeed; 
