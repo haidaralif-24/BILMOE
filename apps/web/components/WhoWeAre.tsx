@@ -2,22 +2,37 @@
 
 import { motion, useReducedMotion } from 'framer-motion';
 import BlurText from '@/components/BlurText';
-import Orb from '@/components/Orb';
+import ComicBurst from '@/components/ComicBurst';
 import { colors } from '@/lib/design-tokens';
 
 export default function WhoWeAre() {
   const prefersReduced = useReducedMotion();
 
   return (
-    <section className="section-snap relative min-h-screen w-full overflow-hidden bg-black px-6 py-20 sm:px-10 sm:py-24 lg:px-16 lg:py-28">
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-75">
-        <div className="h-[105vw] w-[105vw] max-h-[850px] max-w-[850px] sm:h-[700px] sm:w-[700px]">
-          <Orb hue={145} hoverIntensity={0.35} rotateOnHover backgroundColor="#000000" />
-        </div>
+    <section className="section-snap relative min-h-screen w-full overflow-hidden bg-[#f7f1e4] px-6 py-20 sm:px-10 sm:py-24 lg:px-16 lg:py-28">
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-80">
+        <motion.div
+          className="relative flex h-[105vw] w-[105vw] max-h-[850px] max-w-[850px] items-center justify-center sm:h-[700px] sm:w-[700px]"
+          animate={prefersReduced ? undefined : { rotate: [0, 2.5, -1.5, 0] }}
+          transition={prefersReduced ? undefined : { duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ComicBurst
+            className="h-[60%] w-[60%]"
+            fill={colors.warning}
+            stroke={colors.ink}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'radial-gradient(rgba(22,17,10,0.08) 1.5px, transparent 2px)',
+              backgroundSize: '22px 22px',
+            }}
+          />
+        </motion.div>
       </div>
 
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.18)_42%,rgba(0,0,0,0.78)_82%,#000_100%)]" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.35),transparent_25%,transparent_75%,rgba(0,0,0,0.65))]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(247,241,228,0.0)_42%,rgba(247,241,228,0.6)_82%,#f7f1e4_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(247,241,228,0.65),transparent_25%,transparent_75%,rgba(247,241,228,0.85))]" />
 
       <motion.div
         className="relative z-10 mx-auto flex min-h-[calc(100vh-10rem)] max-w-5xl flex-col items-center justify-center text-center sm:min-h-[calc(100vh-12rem)]"
@@ -26,43 +41,40 @@ export default function WhoWeAre() {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
       >
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.35em]" style={{ color: colors.stem }}>
+        <p className="mb-4 font-display text-sm font-bold uppercase tracking-[0.35em]" style={{ color: colors.ink }}>
           About B-ILMOE
         </p>
 
-        <h2 className="mb-8 font-display text-4xl font-bold tracking-tight text-white sm:text-6xl md:text-7xl">
+        <h2 className="mb-8 font-display text-5xl font-bold tracking-tight text-[#16110a] sm:text-6xl md:text-7xl">
           <BlurText text="Who are we?" delay={150} animateBy="words" direction="bottom" className="justify-center font-display" />
         </h2>
 
-        <p className="max-w-3xl font-sans text-base leading-8 text-white/75 sm:text-lg sm:leading-9">
+        <p className="max-w-3xl font-sans text-base leading-8 text-[#16110a]/70 sm:text-lg sm:leading-9">
           B-ILMOE adalah platform media dan penelitian independen yang didedikasikan untuk membuka ruang eksplorasi ilmu pengetahuan, karya seni, dan dinamika sosial-politik bagi generasi muda. Kami percaya bahwa setiap rasa ingin tahu berhak dipublikasikan secara tepercaya, ilmiah, dan mudah diakses oleh semua kalangan.
         </p>
 
         <div className="mt-10 grid w-full max-w-4xl grid-cols-1 gap-4 sm:mt-12 sm:grid-cols-3 sm:gap-8">
-          <div className="rounded-2xl border border-white/10 bg-zinc-950/55 p-6 backdrop-blur-md transition-colors hover:border-white/20" style={{ boxShadow: `0 0 20px ${colors.stem}08` }}>
-            <h3 className="mb-2 font-display text-lg font-bold" style={{ color: colors.stem }}>Eksplorasi</h3>
-            <p className="text-xs leading-6 text-white/60">Wadah terbuka untuk riset, ide-ide inovatif, dan wawasan interdisipliner.</p>
+          <div className="comic-tilt-1 rounded-2xl border-4 p-6 transition-transform hover:-translate-y-1" style={{ backgroundColor: colors.stem, borderColor: colors.ink, boxShadow: `6px 6px 0 ${colors.ink}` }}>
+            <h3 className="heading-outline-sm mb-2 font-display text-xl font-bold">Eksplorasi</h3>
+            <p className="text-xs leading-6 font-medium" style={{ color: colors.ink }}>Wadah terbuka untuk riset, ide-ide inovatif, dan wawasan interdisipliner.</p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-zinc-950/55 p-6 backdrop-blur-md transition-colors hover:border-white/20" style={{ boxShadow: `0 0 20px ${colors.arts}08` }}>
-            <h3 className="mb-2 font-display text-lg font-bold" style={{ color: colors.arts }}>Publikasi</h3>
-            <p className="text-xs leading-6 text-white/60">Menghadirkan karya tulis dan karya seni berkualitas teruji secara berkala.</p>
+          <div className="comic-tilt-2 rounded-2xl border-4 p-6 transition-transform hover:-translate-y-1" style={{ backgroundColor: colors.arts, borderColor: colors.ink, boxShadow: `6px 6px 0 ${colors.ink}` }}>
+            <h3 className="heading-outline-sm mb-2 font-display text-xl font-bold">Publikasi</h3>
+            <p className="text-xs leading-6 font-medium" style={{ color: colors.ink }}>Menghadirkan karya tulis dan karya seni berkualitas teruji secara berkala.</p>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-zinc-950/55 p-6 backdrop-blur-md transition-colors hover:border-white/20" style={{ boxShadow: `0 0 20px ${colors.social}08` }}>
-            <h3 className="mb-2 font-display text-lg font-bold" style={{ color: colors.social }}>Aksesibilitas</h3>
-            <p className="text-xs leading-6 text-white/60">Menyuarakan literasi sains dan sosial dengan penyampaian yang inklusif.</p>
+          <div className="comic-tilt-3 rounded-2xl border-4 p-6 transition-transform hover:-translate-y-1" style={{ backgroundColor: colors.social, borderColor: colors.ink, boxShadow: `6px 6px 0 ${colors.ink}` }}>
+            <h3 className="heading-outline-sm mb-2 font-display text-xl font-bold">Aksesibilitas</h3>
+            <p className="text-xs leading-6 font-medium" style={{ color: colors.ink }}>Menyuarakan literasi sains dan sosial dengan penyampaian yang inklusif.</p>
           </div>
         </div>
       </motion.div>
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-20 bg-[linear-gradient(to_bottom,transparent,rgba(173,237,80,0.025)_45%,rgba(173,237,80,0.07)_82%,rgba(173,237,80,0.12))]"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-[8%] bottom-0 z-30 h-px bg-[linear-gradient(to_right,transparent,rgba(173,237,80,0.12)_20%,rgba(173,237,80,0.28)_50%,rgba(173,237,80,0.12)_80%,transparent)] shadow-[0_0_18px_rgba(173,237,80,0.12)]"
+        className="pointer-events-none absolute inset-x-[8%] bottom-0 z-30 border-t-4 border-dashed"
+        style={{ borderColor: colors.ink }}
       />
     </section>
   );

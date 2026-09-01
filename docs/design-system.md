@@ -5,53 +5,73 @@ this, it's wrong, not the doc.
 
 ## Tone
 
-Gen-alpha accessible, not childish. Bahasa gaul is fine in copy, but STEM
-content still has to read as credible to adults (school supervisors, IB
-scholarship reviewers). When in doubt, cut the slang before you cut the
-accuracy.
+Classic paper-comic book: ink outlines, Ben-Day halftone, sticker accents,
+hard offset shadows. Gen-alpha accessible, not childish. Bahasa gaul is fine
+in copy, but STEM content still has to read as credible to adults (school
+supervisors, IB scholarship reviewers). When in doubt, cut the slang before
+you cut the accuracy.
 
 ## Color
 
-Dark near-black base. Neon is used as an *accent*, never as a body-text color
-or a full-bleed background — legibility and adult credibility both depend on
-restraint here.
+Warm paper background with near-black ink. The division accents are used as
+bold solid fills (cards, stickers) — never as body-text color. Text on
+accent fills is always ink (`ink`), never white.
 
 | Token | Hex | Use |
 |---|---|---|
-| `bg` | `#0A0C14` | Page background |
-| `surface` | `#12162A` | Cards, elevated panels |
-| `text` | `#EEF0FB` | Primary text |
-| `muted` | `#8890B3` | Secondary text, captions |
+| `paper` | `#F7F1E4` | Page background (warm cream) |
+| `card` | `#FFFAF0` | Cards, speech bubbles, elevated panels |
+| `ink` | `#16110A` | Borders, outlines, text, hard shadows |
 | `stem` | `#ADED50` | STEM division accent (green) |
 | `arts` | `#FF5CA1` | Arts division accent (pink) |
 | `social` | `#FF7B1C` | Social/socio-politic division accent (orange) |
 | `danger` | `#ED2626` | Danger/error accent (red) |
-| `warning` | `#FCD717` | Warning accent (yellow) |
+| `warning` | `#FCD717` | Warning accent (yellow), burst stickers |
+
+Legacy dark-neon tokens (`bg`, `surface`, `text`, `muted`, `navy`) remain in
+`design-tokens.ts` and the `.dark` CSS block for future use but are not part
+of the active comic theme.
 
 Rules:
 - A division's color is used consistently everywhere that division shows up
-  (badges, card borders, chips) — never reassign colors per-page.
+  (cards, badges, chips) — never reassign colors per-page.
 - Never rely on color alone to distinguish divisions — always pair the color
   with the division name or an icon (accessibility).
-- Neon text on the dark background must be checked for contrast; prefer neon
-  for borders/icons/small accents over large blocks of neon text.
+- Ink on paper and ink on accent fills must pass AA contrast. `heading-outline`
+  strokes are ink over a paper fill — the fill is what carries contrast, so
+  keep stroke widths reasonable (1.5–3px).
+- Halftone dots and speed lines are decorative only — keep alpha low
+  (≤ 0.08) so body copy stays legible.
 
 ## Typography
 
 | Role | Font | Notes |
 |---|---|---|
-| Display / headlines | Space Grotesk | Bold weights (600–700) for hero/section headers |
-| Body | Inter | 400–500 weight, this is what most people read |
-| Labels / metadata / eyebrows | JetBrains Mono | Small caps or uppercase, used for tags, timestamps, "eyebrow" text above headlines |
+| Display / headlines | Luckiest Guy | Chunky comic display, caps-friendly, for hero wordmark + section headers |
+| Body | Inter (Geist) | 400–500 weight, this is what most people read |
+| Labels / metadata / eyebrows | Geist Mono | Uppercase tracking, tags, timestamps, "eyebrow" text above headlines |
+
+Comic styling helpers (globals.css `@layer utilities`):
+- `.heading-outline` / `.heading-outline-sm` — sticker outline: paper fill,
+  ink stroke, hard ink offset shadow. Headings on accent fills only.
+- `.comic-panel` / `.comic-panel-sm` — solid ink frame + hard offset shadow.
+- `.comic-tail` — speech-bubble tail, for caption callouts.
+- `.comic-rays` — faint speed lines radiating from top-center.
+- `.comic-tilt-1..3` — slight rotations; pair with hover-straightens.
 
 ## Shape & spacing
 
-- Corner radius: 8px on cards and buttons — matches the diagrams/mockups
-  already produced for this project, keep it consistent.
-- Generous whitespace on the dark background; don't crowd neon elements
-  together or the page reads as noisy rather than energetic.
+- Corner radius: 8–16px on cards and buttons; cards on paper use rounded-2xl.
+- Hard-edged offset shadows (`4–7px 4–7px 0 ink`) instead of blur shadows —
+  reads as print registration, not drop shadow.
+- Ink borders are 2–4px solid; dashes for dividers.
+- Generous whitespace on the paper background; don't crowd stickers or the
+  page reads as noisy rather than energetic. Burst stickers: small, sparing,
+  corners only.
 
 ## Motion
 
-Subtle only — hover states, fades. Respect `prefers-reduced-motion` and
-never auto-play anything that flashes (seizure risk with saturated neon).
+Playful but restrained — sticker drift, card drop/swap, hover lifts, slow
+burst rotation. Respect `prefers-reduced-motion` (static fallbacks in
+ComicBackground, no scroll-snap locking, no flashes — seizure risk with
+saturated accent fills).

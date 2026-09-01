@@ -3,7 +3,8 @@
 import { motion, useReducedMotion, useScroll, useTransform, type Variants } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import StrokeText from '@/components/StrokeText';
-import SoftAurora from '@/components/SoftAurora';
+import ComicBackground from '@/components/ComicBackground';
+import ComicBurst from '@/components/ComicBurst';
 import { colors } from '@/lib/design-tokens';
 
 const bgVariants: Variants = {
@@ -46,7 +47,7 @@ function HeroInner({ prefersReduced }: { prefersReduced: boolean }) {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.68, 0.95], [1, 1, 0]);
 
   return (
-    <section ref={heroRef} className="relative h-screen w-full overflow-hidden bg-black">
+    <section ref={heroRef} className="relative h-screen w-full overflow-hidden bg-[#f7f1e4]">
       <motion.div
         className="absolute inset-0 z-0 will-change-transform"
         style={prefersReduced ? undefined : { opacity: heroOpacity, scale: heroScale }}
@@ -54,12 +55,18 @@ function HeroInner({ prefersReduced }: { prefersReduced: boolean }) {
         initial="hidden"
         animate="visible"
       >
-        <SoftAurora />
+        <ComicBackground />
       </motion.div>
 
-      <motion.div
-        className="pointer-events-none absolute inset-0 z-[1] bg-black/20"
-        style={prefersReduced ? undefined : { opacity: heroOpacity }}
+      <ComicBurst
+        className="pointer-events-none absolute top-16 left-[6%] z-[2] h-16 w-16 rotate-[-12deg] sm:h-24 sm:w-24"
+        fill={colors.warning}
+        stroke={colors.ink}
+      />
+      <ComicBurst
+        className="pointer-events-none absolute right-[7%] bottom-20 z-[2] h-10 w-10 rotate-[8deg] sm:h-14 sm:w-14"
+        fill={colors.arts}
+        stroke={colors.ink}
       />
 
       <motion.div
@@ -79,18 +86,19 @@ function HeroInner({ prefersReduced }: { prefersReduced: boolean }) {
           >
             <StrokeText
               text="B-ILMOE"
-              strokeColor={colors.stem}
-              fillColor={colors.text}
-              strokeWidth={1.4}
-              drawDuration={1.6}
+              strokeColor={colors.ink}
+              fillColor={colors.ink}
+              strokeWidth={1.8}
+              drawDuration={1.8}
               fillDelay={0.3}
-              stagger={0.06}
+              stagger={0.07}
               ease="power2.out"
               trigger="mount"
-              fillMode="wipe"
+              fillMode="none"
               fontSize={140}
               fontWeight={700}
               letterSpacing={-4}
+              glow={false}
               className="font-display mx-auto"
             />
           </motion.div>
@@ -107,11 +115,8 @@ function HeroInner({ prefersReduced }: { prefersReduced: boolean }) {
             animate={prefersReduced ? undefined : { x: [0, -2, 2, -1, 0], y: [0, 3, -2, 2, 0], rotate: [0, -0.2, 0.2, -0.12, 0] }}
             transition={prefersReduced ? undefined : { duration: 10, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
           >
-            <div
-              className="rounded-2xl border bg-black/40 px-6 py-5 text-center sm:px-10 sm:py-6"
-              style={{ boxShadow: `0 0 24px ${colors.stem}12, inset 0 0 16px ${colors.stem}06`, borderColor: `${colors.stem}30`, willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
-            >
-              <p className="font-display text-sm leading-7 text-white/75 sm:text-base sm:leading-8">
+            <div className="comic-panel comic-tilt-2 comic-tail relative rounded-2xl bg-[#fffaf0] px-6 py-5 text-center sm:px-10 sm:py-6">
+              <p className="font-sans text-sm leading-7 text-[#16110a]/80 sm:text-base sm:leading-8">
                 Menyediakan wadah eksplorasi ilmu, memublikasikan penelitian teruji, dan mewujudkan media yang mudah diakses
               </p>
             </div>
@@ -130,9 +135,7 @@ export default function Hero() {
 
   if (!mounted) {
     return (
-      <section className="relative h-screen w-full overflow-hidden bg-black">
-        <div className="pointer-events-none absolute inset-0 z-[1] bg-black/20" />
-      </section>
+      <section className="relative h-screen w-full overflow-hidden bg-[#f7f1e4]" />
     );
   }
 

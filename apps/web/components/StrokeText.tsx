@@ -147,7 +147,7 @@ const StrokeText = ({
     const setStart = () => {
       gsap.killTweensOf(targets);
       gsap.set(strokes, { strokeDasharray: dash, strokeDashoffset: dash });
-      gsap.set(glowStrokes, { strokeDasharray: dash, strokeDashoffset: dash });
+      if (glowStrokes.length) gsap.set(glowStrokes, { strokeDasharray: dash, strokeDashoffset: dash });
       gsap.set(fills, { opacity: useWipe ? 1 : 0 });
       if (wipe) gsap.set(wipe, { attr: { width: 0 } });
     };
@@ -155,7 +155,7 @@ const StrokeText = ({
     const setEnd = () => {
       gsap.killTweensOf(targets);
       gsap.set(strokes, { strokeDasharray: dash, strokeDashoffset: 0 });
-      gsap.set(glowStrokes, { strokeDasharray: dash, strokeDashoffset: 0 });
+      if (glowStrokes.length) gsap.set(glowStrokes, { strokeDasharray: dash, strokeDashoffset: 0 });
       gsap.set(fills, { opacity: fillEnabled ? 1 : 0 });
       if (wipe) gsap.set(wipe, { attr: { width: fillEnabled ? box.width : 0 } });
     };

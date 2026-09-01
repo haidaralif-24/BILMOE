@@ -54,6 +54,9 @@
   --color-surface: #12162a;
   --color-bil-text: #eef0fb;
   --color-bil-muted: #8890b3;
+  --color-navy: #0a0e27;
+  --color-paper: #f7f1e4;
+  --color-ink: #16110a;
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -65,38 +68,38 @@
 }
 
 :root {
-  --background: #0a0c14;
-  --foreground: #eef0fb;
-  --card: #12162a;
-  --card-foreground: #eef0fb;
-  --popover: #12162a;
-  --popover-foreground: #eef0fb;
+  --background: #f7f1e4;
+  --foreground: #16110a;
+  --card: #fffaf0;
+  --card-foreground: #16110a;
+  --popover: #fffaf0;
+  --popover-foreground: #16110a;
   --primary: #aded50;
-  --primary-foreground: #0a0c14;
-  --secondary: #15142a;
-  --secondary-foreground: #eef0fb;
-  --muted: #111727;
-  --muted-foreground: #8890b3;
-  --accent: #1a1832;
-  --accent-foreground: #eef0fb;
+  --primary-foreground: #16110a;
+  --secondary: #efe6d2;
+  --secondary-foreground: #16110a;
+  --muted: #efe6d2;
+  --muted-foreground: #5c5444;
+  --accent: #fcd717;
+  --accent-foreground: #16110a;
   --destructive: #ed2626;
-  --border: rgba(173, 237, 80, 0.14);
-  --input: rgba(173, 237, 80, 0.18);
-  --ring: #aded50;
+  --border: rgba(22, 17, 10, 0.22);
+  --input: rgba(22, 17, 10, 0.28);
+  --ring: #16110a;
   --chart-1: #aded50;
   --chart-2: #ff5ca1;
   --chart-3: #ff7b1c;
   --chart-4: #fcd717;
   --chart-5: #ed2626;
   --radius: 0.625rem;
-  --sidebar: #090d18;
-  --sidebar-foreground: #eef0fb;
+  --sidebar: #fffaf0;
+  --sidebar-foreground: #16110a;
   --sidebar-primary: #aded50;
-  --sidebar-primary-foreground: #0a0c14;
-  --sidebar-accent: #15142a;
-  --sidebar-accent-foreground: #eef0fb;
-  --sidebar-border: rgba(173, 237, 80, 0.12);
-  --sidebar-ring: #aded50;
+  --sidebar-primary-foreground: #16110a;
+  --sidebar-accent: #efe6d2;
+  --sidebar-accent-foreground: #16110a;
+  --sidebar-border: rgba(22, 17, 10, 0.18);
+  --sidebar-ring: #16110a;
 }
 
 .dark {
@@ -149,11 +152,14 @@
   body {
     @apply min-h-screen bg-background text-foreground;
     overflow-x: hidden;
+    /* Comic halftone (Ben-Day) dots, subtle enough to stay behind the content. */
+    background-image: radial-gradient(rgba(22, 17, 10, 0.055) 1px, transparent 1.5px);
+    background-size: 20px 20px;
   }
 
   ::selection {
-    background: rgba(173, 237, 80, 0.28);
-    color: #ffffff;
+    background: rgba(22, 17, 10, 0.85);
+    color: #f7f1e4;
   }
 }
 
@@ -188,5 +194,71 @@
 
   .neon-surface {
     background: linear-gradient(135deg, rgba(173, 237, 80, 0.055), rgba(255, 92, 161, 0.045)), var(--card);
+  }
+
+  /*
+   * Chunky "sticker" outline for headings and short category labels only.
+   * Not intended for body copy, nav, or buttons — keep those on the
+   * existing typography. Hard-edged offset shadow (no blur) reads as a
+   * comic/print registration-mismatch effect rather than a soft drop shadow.
+   */
+  .heading-outline {
+    color: var(--color-paper);
+    -webkit-text-stroke: 2.5px var(--color-ink);
+    paint-order: stroke fill;
+    text-shadow: 4px 4px 0 var(--color-ink);
+  }
+
+  /* Lighter-weight variant for smaller labels/badges where a thick stroke would clot the letterforms. */
+  .heading-outline-sm {
+    color: var(--color-paper);
+    -webkit-text-stroke: 1.5px var(--color-ink);
+    paint-order: stroke fill;
+    text-shadow: 2px 2px 0 var(--color-ink);
+  }
+
+  /* Comic-book panel: solid ink frame with a hard offset shadow. */
+  .comic-panel {
+    border: 3px solid var(--color-ink);
+    box-shadow: 7px 7px 0 var(--color-ink);
+  }
+
+  .comic-panel-sm {
+    border: 2px solid var(--color-ink);
+    box-shadow: 5px 5px 0 var(--color-ink);
+  }
+
+  /* Speech-bubble tail pointing down-left, for caption/quote callouts. */
+  .comic-tail::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -14px;
+    width: 22px;
+    height: 22px;
+    margin-left: -11px;
+    background: var(--color-paper);
+    border-bottom: 3px solid var(--color-ink);
+    border-right: 3px solid var(--color-ink);
+    transform: rotate(45deg);
+  }
+
+  /* Faint comic "speed lines" radiating from the top-center. */
+  .comic-rays {
+    background: repeating-conic-gradient(
+      from 0deg at 50% -20%,
+      rgba(22, 17, 10, 0.05) 0deg 1.5deg,
+      transparent 1.5deg 6deg
+    );
+  }
+
+  .comic-tilt-1 {
+    transform: rotate(-1.8deg);
+  }
+  .comic-tilt-2 {
+    transform: rotate(1.2deg);
+  }
+  .comic-tilt-3 {
+    transform: rotate(-1deg);
   }
 }
