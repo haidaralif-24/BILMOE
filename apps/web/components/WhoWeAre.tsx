@@ -10,26 +10,29 @@ export default function WhoWeAre() {
 
   return (
     <section className="section-snap relative min-h-screen w-full overflow-hidden bg-[#f7f1e4] px-6 py-20 sm:px-10 sm:py-24 lg:px-16 lg:py-28">
-      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-80">
-        <motion.div
-          className="relative flex h-[105vw] w-[105vw] max-h-[850px] max-w-[850px] items-center justify-center sm:h-[700px] sm:w-[700px]"
-          animate={prefersReduced ? undefined : { rotate: [0, 2.5, -1.5, 0] }}
-          transition={prefersReduced ? undefined : { duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <ComicBurst
-            className="h-[60%] w-[60%]"
-            fill={colors.warning}
-            stroke={colors.ink}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: 'radial-gradient(rgba(22,17,10,0.08) 1.5px, transparent 2px)',
-              backgroundSize: '22px 22px',
-            }}
-          />
-        </motion.div>
-      </div>
+      <motion.div
+        className="pointer-events-none absolute top-6 right-6 z-20 opacity-80 sm:top-10 sm:right-10"
+        animate={prefersReduced ? undefined : { rotate: [0, 2.5, -1.5, 0] }}
+        transition={prefersReduced ? undefined : { duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <ComicBurst
+          className="h-20 w-20 sm:h-28 sm:w-28"
+          fill={colors.warning}
+          stroke={colors.ink}
+        />
+      </motion.div>
+
+      <motion.div
+        className="pointer-events-none absolute bottom-6 left-6 z-20 opacity-80 sm:bottom-10 sm:left-10"
+        animate={prefersReduced ? undefined : { rotate: [0, -2.5, 1.5, 0] }}
+        transition={prefersReduced ? undefined : { duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <ComicBurst
+          className="h-20 w-20 sm:h-28 sm:w-28"
+          fill={colors.warning}
+          stroke={colors.ink}
+        />
+      </motion.div>
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(247,241,228,0.0)_42%,rgba(247,241,228,0.6)_82%,#f7f1e4_100%)]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(247,241,228,0.65),transparent_25%,transparent_75%,rgba(247,241,228,0.85))]" />
