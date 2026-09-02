@@ -23,6 +23,7 @@ export interface StrokeTextProps {
   fontSize?: number;
   fontWeight?: number | string;
   letterSpacing?: number;
+  fontFamily?: string;
   reverse?: boolean;
   className?: string;
   style?: CSSProperties;
@@ -54,6 +55,7 @@ const StrokeText = ({
   fontSize = 128,
   fontWeight = 800,
   letterSpacing = -4,
+  fontFamily = 'inherit',
   reverse = false,
   className = '',
   style = {},
@@ -77,11 +79,12 @@ const StrokeText = ({
 
   const fontStyle = useMemo<CSSProperties>(
     () => ({
+      fontFamily,
       fontSize: `${fontSize}px`,
       fontWeight,
       letterSpacing: `${letterSpacing}px`
     }),
-    [fontSize, fontWeight, letterSpacing]
+    [fontFamily, fontSize, fontWeight, letterSpacing]
   );
 
   useLayoutEffect(() => {
@@ -126,7 +129,7 @@ const StrokeText = ({
     return () => {
       cancelled = true;
     };
-  }, [characters, fontSize, fontWeight, letterSpacing, strokeWidth]);
+  }, [characters, fontFamily, fontSize, fontWeight, letterSpacing, strokeWidth]);
 
   useEffect(() => {
     const root = rootRef.current;

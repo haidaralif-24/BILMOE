@@ -96,7 +96,8 @@ function HeroInner({ prefersReduced }: { prefersReduced: boolean }) {
               trigger="mount"
               fillMode="none"
               fontSize={140}
-              fontWeight={700}
+              fontWeight={400}
+              fontFamily="var(--font-display)"
               letterSpacing={-4}
               glow={false}
               className="font-display mx-auto"
